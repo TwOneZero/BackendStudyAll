@@ -1,12 +1,33 @@
+body {
+    color: #1613c0;
+    font-family: serif;
+    max-width: 650px;
+    margin: 0 auto;
+    background-color: rgb(224,253 , 177);
+}
+footer {
+    color: #1275d1;
+    border-top: 1px solid #333333;
+    margin-top: 300px;
+    padding: 5px 0;
+}
+header {
+    margin-top: 16px;
+    margin-bottom: 48px;
+}
+header a {
+    color: rgb(67, 55, 241);
+    margin-right: 20px;
+    text-decoration: none;
+}
+
 h1 {
-    color : red
+    font-size: 40px;
 }
 
-h2 {
-    color :blue
-}
 
-img {
-    width: 250px;
-    height: 250px;
+.portrait {
+    width: 200px ;
+    height: 200px;
+    object-fit: cover;
 }
