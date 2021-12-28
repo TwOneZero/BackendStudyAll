@@ -1,5 +1,8 @@
 #module
 node_modules/
 
+#API KEY
+keys/
+
 package-lock.json
 
