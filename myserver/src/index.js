@@ -2,7 +2,8 @@ const path = require("path"); // npm core library 이어서 npm으로 설치할 
 const express = require("express"); // import express from 'express'=> es6 문법은 nodejs 에서 안 쓰임
 const hbs = require("hbs"); //view template engine
 const bodyParser = require("body-parser");
-const airdata = require("./utils/airdata");
+// const airdata = require("./utils/airdata");
+const axiosAirData = require("./utils/axiosAirData");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,20 +41,23 @@ app.get("/about", (req, res) => {
 });
 
 app.post("/air", (req, res) => {
-  airdata(req.body.location, (error, { air } = {}) => {
+  axiosAirData(req.body.location, (error, { air } = {}) => {
     if (error) {
-      return res.send({ error });
+      return res.send("callback error!");
     }
-    console.log("========");
-    const airItem = air.response.body.items;
-    console.log(air.response.body.items);
-    return res.render("air", {
-      title: "미세먼지 정보",
-      location: req.body.location,
-      time: airItem[0].dataTime,
-      pm10: airItem[0].pm10Value,
-      pm25: airItem[0].pm25Value,
-    });
+    try {
+      console.log(air.response.body.items[0]); // response structure test
+      const airItem = air.response.body.items[0];
+      return res.render("air", {
+        title: "미세먼지 정보",
+        location: req.body.location,
+        time: airItem.dataTime,
+        pm10: airItem.pm10Value,
+        pm25: airItem.pm25Value,
+      });
+    } catch (error) {
+      return res.redirect("/"); // 이상한 지역이 있으면 refresh
+    }
   });
 });
 
