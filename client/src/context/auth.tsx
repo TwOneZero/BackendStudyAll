@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, useState } from 'react';
+import axios from 'axios';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import { User } from '../types';
 
 interface State {
@@ -54,6 +61,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     defaultDispatch({ type, payload });
   };
 
+  //로그인 상태에서 login,register 들어가면 메인으로 이동
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const res = await axios.get('/auth/me');
+        if (res) {
+          dispatch('LOGIN', res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        dispatch('STOP_LOADING');
+      }
+    };
+    loadUser();
+  }, []);
+
   return (
     <DispatchContext.Provider value={dispatch}>
       <StateContext.Provider value={state}>{children}</StateContext.Provider>
@@ -63,7 +87,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 /**
  * 다른 컴포넌트에서 사용할 수 있게 useContext 를 내보내기
- * @returns StateContext
  */
 export const useAuthState = () => useContext(StateContext);
 export const useAuthDispatch = () => useContext(DispatchContext);

@@ -1,10 +1,11 @@
 import { validate } from 'class-validator';
 import { Request, Response } from 'express';
-import { User } from '../entity/User';
+import { User } from '../../entity/User';
 
 //에러내용 정리해서 보여주기
 const mapErrors = (errors: Object[]) => {
   return errors.reduce((prev: any, err: any) => {
+    //Object.entries -> String 객체를 Key : Value 로 나누어 Array 형태로 반환해줌
     prev[err.property] = Object.entries(err.constraints)[0][1];
     return prev;
   }, {});
@@ -12,7 +13,6 @@ const mapErrors = (errors: Object[]) => {
 
 export const register = async (req: Request, res: Response) => {
   const { email, userName, password } = req.body;
-  console.log(email, userName, password);
 
   try {
     let error: any = {};

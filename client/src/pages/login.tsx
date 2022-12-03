@@ -3,15 +3,20 @@ import React, { FormEvent, useState } from 'react';
 import { InputComponent } from './components/InputComponent';
 import axios from 'axios';
 import Link from 'next/link';
-import { useAuthDispatch } from '../context/auth';
+import { useAuthDispatch, useAuthState } from '../context/auth';
 
 const login = () => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<any>({});
-
   const dispatch = useAuthDispatch();
+  const { authenticated } = useAuthState();
+
+  //로그인 된 상태라면 main으로 이동
+  if (authenticated) {
+    router.push('/');
+  }
 
   const infoSubmit = async (e: FormEvent) => {
     e.preventDefault();

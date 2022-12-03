@@ -2,14 +2,21 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
+import { useAuthState } from '../context/auth';
 import { InputComponent } from './components/InputComponent';
 
 const Register = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<any>({});
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
+  const { authenticated } = useAuthState();
+
+  //로그인 된 상태라면 main으로 이동
+  if (authenticated) {
+    router.push('/');
+  }
 
   const infoSubmit = async (e: FormEvent) => {
     e.preventDefault();

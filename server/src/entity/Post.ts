@@ -36,7 +36,7 @@ export class Post extends MyBaseEntity {
   body: string;
 
   @Column()
-  subname: string;
+  subName: string;
 
   @Column()
   username: string;
@@ -46,7 +46,7 @@ export class Post extends MyBaseEntity {
   user: User;
 
   @ManyToOne(() => Sub, (sub) => sub.posts)
-  @JoinColumn({ name: 'subname', referencedColumnName: 'name' })
+  @JoinColumn({ name: 'subName', referencedColumnName: 'name' })
   sub: Sub;
 
   @Exclude()
@@ -58,7 +58,7 @@ export class Post extends MyBaseEntity {
   votes: Vote[];
 
   @Expose() get url(): string {
-    return `/r/${this.subname}/${this.identifier}/${this.slug}`;
+    return `/r/${this.subName}/${this.identifier}/${this.slug}`;
   }
 
   @Expose() get commentCount(): number {

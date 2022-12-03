@@ -1,17 +1,9 @@
 import { isEmpty, validate } from 'class-validator';
 import { Request, Response } from 'express';
-import { User } from '../entity/User';
+import { User } from '../../entity/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
-
-//에러내용 정리해서 보여주기
-const mapErrors = (errors: Object[]) => {
-  return errors.reduce((prev: any, err: any) => {
-    prev[err.property] = Object.entries(err.constraints)[0][1];
-    return prev;
-  }, {});
-};
 
 export const login = async (req: Request, res: Response) => {
   const { userName, password } = req.body;
@@ -45,9 +37,10 @@ export const login = async (req: Request, res: Response) => {
     const token = jwt.sign({ userName }, process.env.JWT_SECRET);
 
     //브라우저 쿠키에 저장
+    //추가적인 쿠키 옵션을 설정할 수 있다. 브라우저 cookie 에 저장됨.
     res.set(
       'Set-Cookie',
-      cookie.serialize('mytoken', token, {
+      cookie.serialize('token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
