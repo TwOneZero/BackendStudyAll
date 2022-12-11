@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Sub } from '../../entity/Sub';
 
-const getSub = async (req: Request, res: Response) => {
+export const getSub = async (req: Request, res: Response) => {
   const name = req.params.name;
 
   try {
@@ -11,5 +11,3 @@ const getSub = async (req: Request, res: Response) => {
     return res.status(404).json({ error: 'Sub 를 찾을 수 없습니다.' });
   }
 };
-
-export default getSub;

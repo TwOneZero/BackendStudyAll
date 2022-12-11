@@ -3,7 +3,7 @@ import { AppDataSource } from '../../../data-source';
 import { Sub } from '../../entity/Sub';
 import { Post } from '../../entity/Post';
 
-const topSubs = async (req: Request, res: Response) => {
+export const topSubs = async (req: Request, res: Response) => {
   try {
     const imageUrlExp = `COALESCE('${process.env.APP_URL}/images/' ||s."imageUrn",'https://www.gravatar.com/avatar?d=mp&f=y')`;
     const subs = await AppDataSource.createQueryBuilder()
@@ -24,5 +24,3 @@ const topSubs = async (req: Request, res: Response) => {
     return res.status(500).json({ error: '문제가 발생했습니다.' });
   }
 };
-
-export default topSubs;
