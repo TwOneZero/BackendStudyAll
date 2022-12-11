@@ -12,6 +12,7 @@ import subRouter from './routes/subs';
 const app = express();
 const PORT = 4000;
 
+app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());

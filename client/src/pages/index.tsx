@@ -12,7 +12,7 @@ import useSWRInfinite from 'swr/infinite';
 import useSWR from 'swr';
 
 const Home: NextPage = () => {
-  const { authenticated, loading } = useAuthState();
+  const { authenticated } = useAuthState();
 
   const address = `/subs/sub/topSubs`;
   const fetcher = async (url: string) => {

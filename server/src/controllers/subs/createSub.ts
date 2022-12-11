@@ -4,13 +4,13 @@ import { AppDataSource } from '../../../data-source';
 import { Sub } from '../../entity/Sub';
 import { User } from '../../entity/User';
 
-const createSubs = async (req: Request, res: Response) => {
+export const createSubs = async (req: Request, res: Response) => {
   const { subName, title, description } = req.body;
 
   //Sub가 존재하는 지 check
   try {
     let error: any = {};
-    
+
     if (isEmpty(subName)) error.subName = '이름은 비워둘 수 없습니다.';
     if (isEmpty(title)) error.title = '제목은 비워둘 수 없습니다.';
 
@@ -43,5 +43,3 @@ const createSubs = async (req: Request, res: Response) => {
       .json({ error: 'Something went wrong for create subs' });
   }
 };
-
-export default createSubs;
