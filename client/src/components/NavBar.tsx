@@ -23,15 +23,14 @@ const NavBar: React.FC = () => {
 
   return (
     <div className='fixed inset-x-0 top-0 z-10 flex items-center justify-between px-5 bg-white h-13'>
-      <span className='text-2xl font-semibold text-gray-400'>
+      <span className='text-2xl font-semibold text-gray-400 my-1'>
         <Link href='/'>
-          Community
-          {/* <Image
-            src='/reddit-name-logo.png'
+          <Image
+            src='/reddit-logo.png'
             alt='logo'
-            width={80}
-            height={45}
-          ></Image> */}
+            width={50}
+            height={30}
+          ></Image>
         </Link>
       </span>
       <div className='max-w-full px-4'>

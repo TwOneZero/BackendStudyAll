@@ -131,7 +131,7 @@ const PostPage = () => {
               </div>
 
               {/* 댓글 작성 구간 */}
-              <div className='pr-6 mb-4 pl-9'>
+              <div className='pr-6 mb-4 pl-9 p-4'>
                 {authenticated ? (
                   <div>
                     <p className='mb-1 text-xs'>

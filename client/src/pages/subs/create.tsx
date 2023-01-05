@@ -18,7 +18,7 @@ const Subcreate = () => {
       const res = await axios.post('/subs', { subName, title, description });
       console.log(res);
 
-      router.push(`/r/${res.data.subName}`);
+      router.push(`/r/${res.data.name}`);
     } catch (error: any) {
       console.log(error);
       setError(error?.response.data);
@@ -27,7 +27,7 @@ const Subcreate = () => {
 
   return (
     <div className='flex flex-col justify-center pt-16'>
-      <div className='w-10/12 mx-auto md:96'>
+      <div className='w-10/12 mx-auto md:96 bg-white rounded p-4'>
         <h1 className='mb-2 text-lg font-medium'>커뮤니티 생성</h1>
         <hr />
         <form onSubmit={infoSubmit}>

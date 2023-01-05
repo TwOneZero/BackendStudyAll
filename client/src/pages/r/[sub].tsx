@@ -71,8 +71,6 @@ const SubPage = () => {
       <PostCard key={post.identifier} post={post} subMutate={mutate} />
     ));
   }
-  console.log('sub.imageUrl', sub?.imageUrl);
-
   return (
     <>
       {sub && (
@@ -85,7 +83,7 @@ const SubPage = () => {
               onChange={uploadImage}
             />
             {/* 배너 이미지 */}
-            <div className='bg-gray-400 h-20'>
+            <div className='bg-gray-400'>
               {sub.bannerUrl ? (
                 <div
                   className='h-56'
@@ -105,7 +103,7 @@ const SubPage = () => {
               )}
             </div>
             {/* 커뮤니티 메타 데이터 */}
-            <div className='bg-white'>
+            <div className='bg-white h-20'>
               <div className='relative flex max-w-5xl px-5 mx-auto'>
                 <div className='absolute' style={{ top: -15 }}>
                   {sub.imageUrl && (
