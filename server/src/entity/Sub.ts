@@ -50,4 +50,10 @@ export class Sub extends MyBaseEntity {
       ? `${process.env.APP_URL}/images/${this.imageUrn}`
       : 'https://www.gravatar.com/avatar?d=mp&f=y';
   }
+  @Expose()
+  get bannerUrl(): string {
+    return this.bannerUrn
+      ? `${process.env.APP_URL}/images/${this.bannerUrn}`
+      : 'https://www.gravatar.com/avatar?d=mp&f=y';
+  }
 }

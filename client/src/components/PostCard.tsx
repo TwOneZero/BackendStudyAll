@@ -10,8 +10,8 @@ import { Post } from '../types';
 
 interface PostCardProps {
   post: Post;
-  subMutate?: () => void;
-  mutate?: () => void;
+  subMutate?: Function;
+  mutate?: Function;
 }
 
 const PostCard = ({
@@ -35,7 +35,7 @@ const PostCard = ({
 }: PostCardProps) => {
   const router = useRouter();
 
-  //특정 sub 첫페이지인지 확인
+  //특정 sub 안인지, 메인페이지인지 check하기 위함
   const isInSubPage = router.pathname === '/r/[sub]';
   const { authenticated } = useAuthState();
 
@@ -85,7 +85,7 @@ const PostCard = ({
       {/* 포스트 데이터 부분 */}
       <div className='w-full p-2'>
         <div className='flex items-center'>
-          {/* {!isInSubPage && (
+          {!isInSubPage && (
             <div className='flex items-center'>
               <Link href={`/r/${subName}`}>
                 <Image
@@ -104,7 +104,7 @@ const PostCard = ({
               </Link>
               <span className='mx-1 text-xs text-gray-400'>•</span>
             </div>
-          )} */}
+          )}
 
           <p className='text-xs text-gray-400'>
             Posted by

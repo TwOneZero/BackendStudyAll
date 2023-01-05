@@ -16,22 +16,72 @@ const Home: NextPage = () => {
 
   const address = `/subs/sub/topSubs`;
 
+  //스크롤에 필요한 통신
+  const getKey = (pageIndex: number, prevPageData: Post[]) => {
+    if (prevPageData && !prevPageData.length) return null;
+    // 첫 페이지, `previousPageData`가 없음
+    return `/posts?page=${pageIndex}&count=5`;
+  };
+  //Fetch Posts with scrolling
+  const {
+    data,
+    error,
+    size: page,
+    setSize: setPage,
+    isValidating,
+    mutate,
+  } = useSWRInfinite<Post[]>(getKey);
+  //Post 초기 로딩
+  const isInitialLoading = !data && !error;
+  //Posts 데이터 저장 concat
+  const posts: Post[] = data ? ([] as Post[]).concat(...data) : [];
+
+  //Fetch Top Subs
   const { data: topSubs } = useSWR<Sub[]>(address);
 
   const [observedPost, setObservedPost] = useState('');
+
+  useEffect(() => {
+    //포스트가 없다면 return
+    if (!posts || posts.length === 0) return;
+    //포스트 배열안에 마지막 post id 가져오기
+    const id = posts[posts.length - 1].identifier;
+    //포스트 추가시 마지막 포스트로observedPost 변경
+    if (id !== observedPost) {
+      setObservedPost(id);
+      //
+      observeElement(document.getElementById(id));
+    }
+  }, [posts]);
+
+  const observeElement = (element: HTMLElement | null) => {
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        //isIntersecting
+        if (entries[0].isIntersecting === true) {
+          setPage(page + 1);
+          observer.unobserve(element);
+        }
+      },
+      { threshold: 1 }
+    );
+    observer.observe(element);
+  };
 
   return (
     <div className='flex max-w-5xl px-4 pt-5 mx-auto'>
       {/* 포스트 리스트 */}
       <div className='w-full md:mr-3 md:w-8/12'>
-        {/* {isInitialLoading && <p className="text-lg text-center">로딩중입니다...</p>}
-        {posts?.map(post => (
-          <PostCard
-            key={post.identifier}
-            post={post}
-            mutate={mutate}
-          />
-        ))} */}
+        {isInitialLoading && (
+          <p className='text-lg text-center'>로딩 중 입니다...</p>
+        )}
+        {posts?.map((post) => (
+          <PostCard key={post.identifier} post={post} mutate={mutate} />
+        ))}
+        {isValidating && posts.length > 0 && (
+          <p className='text-lg text-center'>로딩 중 입니다...</p>
+        )}
       </div>
       {/* 사이드바 */}
       <div className='hidden w-4/12 ml-3 md:block'>
