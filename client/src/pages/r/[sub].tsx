@@ -4,6 +4,9 @@ import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { useAuthState } from '../../context/auth';
+import SideBar from '../../components/SideBar';
+import PostCard from '../../components/PostCard';
+import { Post } from '../../types';
 
 //상세페이지
 const SubPage = () => {
@@ -14,19 +17,17 @@ const SubPage = () => {
   //r/[sub]
   const subName = router.query.sub;
 
-  const fetcher = async (url: string) => {
-    try {
-      const res = await axios.get(url);
-      return res.data;
-    } catch (err: any) {
-      throw err.response.data;
-    }
-  };
   const {
     data: sub,
     error,
     mutate,
-  } = useSWR(subName ? `/subs/${subName}` : null, fetcher);
+  } = useSWR(subName ? `/subs/${subName}` : null);
+
+  // -> 로그인 상태 && user 와 sub 유저가 같으면 ownSub -> true
+  useEffect(() => {
+    if (!sub) return;
+    setOwnSub(authenticated && user!.username === sub.username);
+  }, [sub]);
 
   //파일 오픈 type =>  banner OR image
   const openFileInput = (type: string) => {
@@ -50,18 +51,27 @@ const SubPage = () => {
     //axios post -> upload
     try {
       await axios.post(`/subs/${sub.name}/upload`, formData, {
-        headers: { 'Context-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  // -> 로그인 상태 && user 와 sub 유저가 같으면 ownSub -> true
-  useEffect(() => {
-    if (!sub) return;
-    setOwnSub(authenticated && user!.username === sub.username);
-  }, [sub]);
+  // 렌더링 전/후 컴포넌트
+  let renderPosts;
+  if (!sub) {
+    renderPosts = <p className='text-lg text-center'>로딩중...</p>;
+  } else if (sub.posts.length === 0) {
+    renderPosts = (
+      <p className='text-lg text-center'>아직 작성된 포스트가 없습니다.</p>
+    );
+  } else {
+    renderPosts = sub.posts.map((post: Post) => (
+      <PostCard key={post.identifier} post={post} subMutate={mutate} />
+    ));
+  }
+  console.log('sub.imageUrl', sub?.imageUrl);
 
   return (
     <>
@@ -122,8 +132,8 @@ const SubPage = () => {
           </div>
           {/* 포스트와 사이드바 */}
           <div className='flex max-w-5xl px-4 pt-5 mx-auto'>
-            {/* <div className="w-full md:mr-3 md:w-8/12">{renderPosts} </div>
-                    <SideBar sub={sub} /> */}
+            <div className='w-full md:mr-3 md:w-8/12'>{renderPosts}</div>
+            <SideBar sub={sub} />
           </div>
         </>
       )}

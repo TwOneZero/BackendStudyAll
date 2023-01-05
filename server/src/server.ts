@@ -9,6 +9,8 @@ import { AppDataSource } from '../data-source';
 
 import authRouter from './routes/auth';
 import subRouter from './routes/subs';
+import postRouter from './routes/posts';
+import voteRouter from './routes/votes';
 const app = express();
 const PORT = 4000;
 
@@ -29,6 +31,8 @@ app.get('/', (_, res) => res.send('running'));
 
 app.use('/api/auth', authRouter);
 app.use('/api/subs', subRouter);
+app.use('/api/posts', postRouter);
+app.use('/api/votes', voteRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server running at ${PORT} port`);

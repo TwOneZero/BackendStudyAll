@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
-import { InputComponent } from './components/InputComponent';
+import { InputComponent } from '../components/InputComponent';
 import axios from 'axios';
 import Link from 'next/link';
 import { useAuthDispatch, useAuthState } from '../context/auth';

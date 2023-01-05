@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaSearch } from 'react-icons/fa';
 
-import { useAuthDispatch, useAuthState } from '../../context/auth';
+import { useAuthDispatch, useAuthState } from '../context/auth';
 const NavBar: React.FC = () => {
   const { loading, authenticated } = useAuthState();
   const dispatch = useAuthDispatch();

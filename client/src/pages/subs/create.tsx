@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
-import { InputComponent } from '../components/InputComponent';
+import { InputComponent } from '../../components/InputComponent';
 
 const Subcreate = () => {
   const [subName, setSubName] = useState('');
@@ -76,8 +76,7 @@ const Subcreate = () => {
 
 export default Subcreate;
 
-
-//page 이동 시 마다 적용됨 입장 권한 체크
+//커뮤니티 생성 권한 체크
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
     const cookie = req.headers.cookie;
@@ -85,13 +84,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     if (!cookie) throw new Error('No token cookie!');
 
     //쿠키 이용해서 백엔드 인증처리
-    await axios.get('/auth/me', { headers : { cookie } });
+    await axios.get('/auth/me', { headers: { cookie } });
 
-    return { props: {} }
+    return { props: {} };
   } catch (error) {
     //백엔드에서 요청한 쿠키 -> 인증처리 실패 -> login 페이지로 이동
-    res.writeHead(307, { Location: '/login' }).end()
-    return { props: {} }
+    res.writeHead(307, { Location: '/login' }).end();
+    return { props: {} };
   }
 };
-

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
 import { useAuthState } from '../context/auth';
-import { InputComponent } from './components/InputComponent';
+import { InputComponent } from '../components/InputComponent';
 
 const Register = () => {
   const router = useRouter();
