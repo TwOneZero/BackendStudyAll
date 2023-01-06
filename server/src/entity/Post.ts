@@ -15,7 +15,8 @@ import MyBaseEntity from './Entity';
 import bcrypt from 'bcryptjs';
 import { User } from './User';
 import { Sub } from './Sub';
-import { makeId, slugify } from '../utils/helpers';
+import { makeId } from '../utils/helpers';
+import { slugify } from 'transliteration';
 import { Vote } from './Vote';
 import { Comment } from './Comment';
 
