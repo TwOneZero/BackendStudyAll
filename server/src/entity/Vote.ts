@@ -6,7 +6,8 @@ import bcrypt, { compare } from 'bcryptjs';
 import { User } from './User';
 import { Sub } from './Sub';
 import { Post } from './Post';
-import { makeId, slugify } from '../utils/helpers';
+import { makeId } from '../utils/helpers';
+import { slugify } from 'transliteration';
 import { Comment } from './Comment';
 
 @Entity('votes')
