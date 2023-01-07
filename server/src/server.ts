@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
 //cors 설정
-const origin = 'http://localhost:3000';
+const origin = process.env.ORIGIN;
 app.use(
   cors({
     origin,
@@ -37,7 +37,7 @@ app.use('/api/votes', voteRouter);
 app.use('/api/users', userRouter);
 
 app.listen(PORT, async () => {
-  console.log(`Server running at ${PORT} port`);
+  console.log(`Server running at ${process.env.APP_URL}`);
 
   AppDataSource.initialize()
     .then(() => {
