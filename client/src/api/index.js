@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = axios.create({ baseURL: 'http://localhost:5000' });
+const BASE_URL = axios.create({ baseURL: 'https://port-0-mern-app-dihik2mlitw7yr9.sel4.cloudtype.app/' });
 
 BASE_URL.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
