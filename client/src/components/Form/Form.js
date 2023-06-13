@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
 import { Paper, TextField, Button, Typography, Box } from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
 
 //GET THE CURRENT ID
 
 const Form = ({ currentId, setCurrentId }) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [postData, setPostData] = useState({
-    creator: '',
     title: '',
     message: '',
     tags: '',
@@ -19,12 +21,13 @@ const Form = ({ currentId, setCurrentId }) => {
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
 
+  const user = JSON.parse(localStorage.getItem('profile'));
+  
+
+
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-
-  const classes = useStyles();
-  const dispatch = useDispatch();
 
   //dispatch
   const handleSubmit = (e) => {
@@ -32,18 +35,30 @@ const Form = ({ currentId, setCurrentId }) => {
 
     if (currentId) {
       //currentId exists -> update
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost(currentId, {...postData, name: user?.result?.name }));
     } else {
       //Id null -> new post
-      dispatch(createPost(postData));
+      dispatch(createPost({...postData, name: user?.result?.name }));
     }
     //clear Form
     clear();
   };
+
+  
+  if(!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant='h6' align='center'>
+          Please Sign in to create your own posts and like, edit the post
+        </Typography>
+      </Paper>
+    )
+  }
+
+
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(0);
     setPostData({
-      creator: '',
       title: '',
       message: '',
       tags: '',
@@ -62,7 +77,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant='h6'>
           {currentId ? `Editing` : `Creating`} a Memory
         </Typography>
-        <TextField
+        {/* <TextField
           name='creator'
           variant='outlined'
           label='Creator'
@@ -71,7 +86,7 @@ const Form = ({ currentId, setCurrentId }) => {
           onChange={(e) =>
             setPostData({ ...postData, creator: e.target.value })
           }
-        />
+        /> */}
         <TextField
           name='title'
           variant='outlined'

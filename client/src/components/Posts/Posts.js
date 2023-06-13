@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, CircularProgress } from '@material-ui/core';
+import { Grid,  Paper, Typography } from '@material-ui/core';
 import Post from './Post/Post';
 import useStyles from './styles';
 const Posts = ({ setCurrentId }) => {
@@ -10,8 +10,11 @@ const Posts = ({ setCurrentId }) => {
   return (
     //posts not exist
     !posts.length ? (
-      // <CircularProgress />
-      <div></div>
+      <Paper className={classes.paper}>
+        <Typography variant='h4' align='center'>
+          There is no posts
+        </Typography>
+      </Paper>
     ) : (
       <Grid
         className={classes.mainContainer}

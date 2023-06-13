@@ -18,7 +18,8 @@ export const createPost = async (req, res) => {
   try {
     //create a post
     //req.body  -> post
-    const newPost = new PostMessage(req.body);
+    const post = req.body;
+    const newPost = new PostMessage({...post, creator: req.userId, createdAt: new Date().toISOString()});
     //save a post
     await newPost.save();
     res.status(201).json(newPost);
@@ -64,28 +65,30 @@ export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // if(!req.userId) return res.json({message : 'Unauthrized user'});
+    if(!req.userId) return res.json({message : 'Unauthrized user'});
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send('No post with that id');
 
     const post = await PostMessage.findById(id);
 
-    // const index = post.likes.findIndex((id) => id === String(req.userId));
-    // if(index === -1 ) {
-    //   //like the post
-    //   post.likes.push(req.userId);
-    // } else {
-    //   //dislike  
-    // }
+    //유저 아이디 찾기
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+    if(index === -1 ) {
+      //like the post
+      post.likes.push(req.userId);
+    } else {
+      //dislike
+      post.likes = post.likes.filter((id) => id !== String(req.userId));
+    }
 
     const updatedPost = await PostMessage.findByIdAndUpdate(
       id,
-      { likeCount: post.likeCount + 1 },
+      post,
       { new: true }
     );
-    res.json(updatedPost);
+    return res.status(200).json(updatedPost);
   } catch (error) {
-    res.status(409).json({ message: error });
+    return res.status(409).json({ message: error });
   }
 };
