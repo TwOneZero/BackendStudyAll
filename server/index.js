@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 
 //몽고DB 연결
 mongoose
-  .connect(String(process.env.MONGO_URL))
+  .connect(process.env.MONGO_URL)
   .then(() => console.log('mongoDB connected!'))
   .catch((error) => console.log(error));
 
