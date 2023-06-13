@@ -4,14 +4,37 @@ import PostMessage from '../models/postMessage.js';
 //Get post
 export const getPosts = async (req, res) => {
   try {
-    //Bring all the posts.
-    const postMessage = await PostMessage.find();
+    const {page } =req.query;
 
-    res.status(200).json(postMessage);
+    const LIMIT = 4; //네 개씩
+    //특정 인덱스에서부터 가져오기
+    const startIdx = (Number(page) - 1) * LIMIT;
+    const total = await PostMessage.countDocuments({})
+    //개수만큼 정렬해서 가져오기
+    const posts = await PostMessage.find().sort({_id: -1}).limit(LIMIT).skip(startIdx);
+    res.status(200).json({data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
   } catch (error) {
-    res.status(404).json({ message: error });
+    res.status(404).json({ message: error.message });
   }
 };
+
+export const getPostsBySearch = async (req, res) => {
+  try {
+    //query 로 검색
+    const {searchQuery, tags} = req.query;
+    //다 소문자로 만들기
+    const title =new RegExp(searchQuery, 'i');
+
+    const posts = await PostMessage.find({
+      $or: [{title}, {tags: {$in: tags.split(',') }}]
+    })
+    return res.status(200).json({data : posts});
+
+  }catch(error) {
+    return res.status(404).json({message : error.message})
+  }
+}
+
 
 //Post posts
 export const createPost = async (req, res) => {

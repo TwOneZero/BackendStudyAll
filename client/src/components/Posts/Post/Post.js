@@ -14,8 +14,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import { useDispatch} from 'react-redux';
-
 import { deletePost, likePost } from '../../../actions/posts';
+import noImage from '../../../images/no_image.jpg';
 
 //const Post = (props) 대신 ({post})
 const Post = ({ post, setCurrentId }) => {
@@ -37,19 +37,23 @@ const Post = ({ post, setCurrentId }) => {
 
 
   return (
-    <Card className={classes.card}>
-      <CardMedia className={classes.media} image={post.selectedFile} />
+    <Card className={classes.card} raised elevation={6}>
+      <CardMedia className={classes.media} image={post.selectedFile || noImage } />
       <div className={classes.overlay}>
         <Typography variant='h6'>{post.name}</Typography>
-        <Typography variant='h6' style={{ fontWeight: 'bold' }}>
-          {post.title}
-        </Typography>
+        
         <Typography variant='body2'>
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
       <CardContent>
-        <Typography className={classes.title} variant='body2' component='p'>
+        <Typography variant='caption' color='textSecondary'>
+            {post.tags.map((tag) => `#${tag} `)}
+        </Typography>
+        <Typography className={classes.title} variant='h6' style={{ fontWeight: 'bold' }}>
+            {post.title}
+        </Typography>
+        <Typography className={classes.details}  variant='body2' paragraph>
           {post.message}
         </Typography>
       </CardContent>
@@ -65,11 +69,7 @@ const Post = ({ post, setCurrentId }) => {
       </div>
       )}
       
-      <div className={classes.details}>
-        <Typography variant='caption' color='textSecondary'>
-          {post.tags.map((tag) => `#${tag} `)}
-        </Typography>
-      </div>
+        
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" 
           disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>

@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 import User from '../models/user.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const secret = 'test';
+const secret = process.env.JWT_SECRET;
 
 
 export const signin = async (req, res) => {

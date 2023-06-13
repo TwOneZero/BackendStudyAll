@@ -100,6 +100,8 @@ const Form = ({ currentId, setCurrentId }) => {
           variant='outlined'
           label='Message'
           fullWidth
+          multiline
+          minRows={6}
           value={postData.message}
           onChange={(e) =>
             setPostData({ ...postData, message: e.target.value })
@@ -109,6 +111,7 @@ const Form = ({ currentId, setCurrentId }) => {
           name='tags'
           variant='outlined'
           label='Tags'
+          placeholder='tags are split by comma'
           fullWidth
           value={postData.tags}
           onChange={(e) =>

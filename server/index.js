@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+dotenv.config();
 
 //router
 import postRouter from './routes/post.js';
 import userRouter from './routes/user.js';
 
 const app = express();
-dotenv.config();
 app.set('port', process.env.PORT || 5000);
 
 //공통 미들웨어
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 //서버 에러
 app.use((err, req, res, next) => {
   console.log('Server ERROR!');
-  res.status(err.status || 500).json(err);
+  res.status(err.status || 500).json({message: err.message});
 });
 
 //서버 구동
