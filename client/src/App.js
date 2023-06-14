@@ -6,9 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate  } from 'react-router-dom';
 import PostDetails from './components/PostDetails/PostDetail';
 
 const App = () => {
-
-  const user = JSON.parse(localStorage.getItem('profile'));
-
+  
   return (
     <BrowserRouter>
       <Container maxWidth='xl'>
@@ -18,7 +16,8 @@ const App = () => {
           <Route exact path='/posts' element={<Home />}/>
           <Route exact path='/posts/search' element={<Home />}/>
           <Route exact path='/posts/:id' element={<PostDetails />}/>
-          <Route exact path='/auth' element={(!user ? <Auth/> : <Navigate replace to='/posts' />)} /> 
+          {/* TO-DO : Wrapping Auth route */}
+          <Route exact path='/auth' element={<Auth />} /> 
         </Routes>
       </Container>
     </BrowserRouter>

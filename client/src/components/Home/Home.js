@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grow, Grid, Paper, AppBar, TextField, Button, Chip } from '@material-ui/core';
+import React, {  useState } from 'react';
+import { Container, Grow, Grid, Paper, AppBar, TextField, Button } from '@material-ui/core';
 import Form from '../Form/Form';
 import Posts from '../Posts/Posts';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
-import { getPosts, getPostsBySearch } from '../../actions/posts';
-// import { Pagination } from '@material-ui/lab';
+import {  getPostsBySearch } from '../../actions/posts';
 import Paginate from '../Pagination';
 import {useNavigate, useLocation } from 'react-router-dom'
 import TagsInput from '../TagsInput';
@@ -26,18 +25,14 @@ const Home = () => {
   const page = query.get('page') || 1;
   const searchQuery =query.get('searchQuery');
 
-  useEffect( () => {
-    dispatch(getPosts());
-  }, [dispatch]);
-
   
   const searchPosts = () => {
     if(search.trim() || tags){
       const tagsString = tags.join(',');
       // dispatch -> fetch search posts
-      dispatch(getPostsBySearch({search, tags: tagsString}))
+      dispatch(getPostsBySearch({search, tags: tagsString.length > 0 ? tagsString : 'none' }))
       
-      navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tagsString || 'none'}`)
+      navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tagsString.length > 0 ? tagsString : 'none'}`)
     } else {
       navigate('/');
     }
@@ -84,9 +79,12 @@ const Home = () => {
               <Button onClick={searchPosts} className={classes.searchButton} color='primary' variant='contained'>Search</Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper  elevation={6}>
-              <Paginate page={page} />
-            </Paper>
+            {/* title or tag 검색 시 pagination 안 보이게 */}
+            {(!searchQuery && !tags.length) && (
+              <Paper className={classes.pagination} elevation={6}>
+                <Paginate page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
 import { Paper, TextField, Button, Typography, Box } from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
-
+import { useNavigate } from 'react-router-dom';
 //GET THE CURRENT ID
 
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const navigate =  useNavigate();
   const [postData, setPostData] = useState({
     title: '',
     message: '',
@@ -18,7 +18,7 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: '',
   });
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+    currentId ? state.posts.posts.find((p) => p._id === currentId) : null
   );
 
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -38,7 +38,7 @@ const Form = ({ currentId, setCurrentId }) => {
       dispatch(updatePost(currentId, {...postData, name: user?.result?.name }));
     } else {
       //Id null -> new post
-      dispatch(createPost({...postData, name: user?.result?.name }));
+      dispatch(createPost({...postData, name: user?.result?.name }, navigate))
     }
     //clear Form
     clear();
@@ -67,7 +67,7 @@ const Form = ({ currentId, setCurrentId }) => {
   };
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete='off'
         noValidate

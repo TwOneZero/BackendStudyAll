@@ -6,7 +6,7 @@ export const getPosts = async (req, res) => {
   try {
     const {page } =req.query;
 
-    const LIMIT = 4; //네 개씩
+    const LIMIT = 2; //네 개씩
     //특정 인덱스에서부터 가져오기
     const startIdx = (Number(page) - 1) * LIMIT;
     const total = await PostMessage.countDocuments({})
@@ -25,6 +25,7 @@ export const getPostsBySearch = async (req, res) => {
     //다 소문자로 만들기
     const title =new RegExp(searchQuery, 'i');
 
+    //타이틀 or tags 
     const posts = await PostMessage.find({
       $or: [{title}, {tags: {$in: tags.split(',') }}]
     })
@@ -34,6 +35,20 @@ export const getPostsBySearch = async (req, res) => {
     return res.status(404).json({message : error.message})
   }
 }
+
+//get post details
+export const getPost = async (req, res) => { 
+  const { id } = req.params;
+
+  try {
+      const post = await PostMessage.findById(id);
+      
+      res.status(200).json(post);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+}
+
 
 
 //Post posts

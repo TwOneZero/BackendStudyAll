@@ -17,6 +17,7 @@ function NavBar() {
 
 
   const logout = () => {
+    console.log('logout');
     dispatch({ type: actionType.LOGOUT });
     setUser(null);
     navigate('/auth')
