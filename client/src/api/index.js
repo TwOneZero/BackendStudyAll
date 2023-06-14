@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = axios.create({ baseURL: 'https://port-0-mern-app-dihik2mlitw7yr9.sel4.cloudtype.app/' });
+
+const BASE_URL = axios.create({ baseURL: process.env.REACT_APP_SERVER_URL });
 
 
 BASE_URL.interceptors.request.use((req) => {
