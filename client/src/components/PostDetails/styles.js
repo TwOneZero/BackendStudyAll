@@ -23,6 +23,7 @@ export default makeStyles((theme) => ({
   },
   imageSection: {
     marginLeft: '20px',
+    maxWidth: '800px',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
@@ -34,6 +35,22 @@ export default makeStyles((theme) => ({
     },
   },
   loadingPaper: {
-    display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '39vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+    borderRadius: '15px',
+    height: '39vh',
+  },
+  commentsOuterContainer: {
+    display: 'flex',
+    minWidth: '500px',
+    justifyContent: 'space-between',
+  },
+  commentsInnerContainer: {
+    height: '200px',
+    overflowY: 'auto',
+    minWidth: '300px',
+    marginRight: '30px',
   },
 }));
