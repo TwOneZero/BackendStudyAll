@@ -1,0 +1,4 @@
+{
+  "format_attribute_template_tags": true,
+  "ignore": "T001,T002"
+}
