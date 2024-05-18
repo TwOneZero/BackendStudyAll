@@ -1,0 +1,5 @@
+data
+.env
+server/data-source.ts
+.env.development
+.env.production
