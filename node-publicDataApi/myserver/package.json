@@ -1,0 +1,20 @@
+{
+  "name": "myserver",
+  "version": "1.0.0",
+  "description": "learning nodeJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js -e hbs,css,js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "twoonezero",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "hbs": "^4.2.0",
+    "request": "^2.88.2"
+  }
+}
